@@ -1,41 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Google Drive Video Playlist</title>
+  <title>Drive Video Playlist</title>
 </head>
 <body>
-  <h2>Google Drive Video Playlist</h2>
-
-  <video id="player" width="100%" height="500" controls autoplay>
-    <source id="source" src="" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <video id="player" width="100%" height="500" controls autoplay></video>
 
   <script>
-    const fileIds = [
-      "1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ", // First video
-      "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u"  // Second video
+    const videos = [
+      { id: "1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ", duration: 283 }, // 4 min 43 sec
+      { id: "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u", duration: 180 }
     ];
 
     let current = 0;
     const player = document.getElementById("player");
-    const source = document.getElementById("source");
 
     function playNext() {
-      if (current >= fileIds.length) current = 0;
-
-      const url = `https://drive.google.com/uc?export=download&id=${fileIds[current]}`;
-      source.src = url;
-      player.load();
+      const video = videos[current];
+      const url = `https://drive.google.com/uc?export=download&id=${video.id}`;
+      player.src = url;
       player.play().catch(() => {
-        console.log("Autoplay might be blocked. User needs to click play.");
+        console.log("Autoplay blocked");
       });
-      current++;
+
+      setTimeout(() => {
+        current = (current + 1) % videos.length;
+        playNext();
+      }, video.duration * 1000); // Switch after duration ends
     }
 
-    player.onended = playNext;
-
-    // Start with the first video
     playNext();
   </script>
 </body>
