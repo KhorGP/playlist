@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Google Drive Playlist</title>
+  <title>Drive Video Playlist</title>
 </head>
 <body>
-  <h2>Drive Video Playlist (iframe auto-switch)</h2>
-  <iframe id="player" width="100%" height="500" allow="autoplay" frameborder="0"></iframe>
+  <h2>Drive Video Playlist (Auto-Switch)</h2>
+  <iframe
+    id="player"
+    width="100%"
+    height="500"
+    allow="autoplay"
+    frameborder="0">
+  </iframe>
 
   <script>
     const fileIds = [
       "1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ",
       "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u",
       "14tDSpPmZ3piuG0kIQAGTJxD5ScBaqsuq",
-"1DLrGB3qTpuZ3twDZdCTc77urYt9SnOG3"
-      // Add more file IDs here
+      "1DLrGB3qTpuZ3twDZdCTc77urYt9SnOG3",
+      "1zDinx3l6f1etC9-dVq9j-zXE-HRQTddI",
+      "1ndsQVBgaLs24RdwUEjv9X3x_h-Y4V_8Z",
+      "1O8NO-JSj7rVJhYRsdfPTnUj9HJxFJjGz"
     ];
 
     let current = 0;
     const player = document.getElementById("player");
 
     function playNext() {
-      if (current >= fileIds.length) current = 0; // Loop back to first
       player.src = `https://drive.google.com/file/d/${fileIds[current]}/preview`;
-      current++;
+      current = (current + 1) % fileIds.length; // Loop to start after last
     }
 
-    playNext(); // Start first video
-    setInterval(playNext, 180000); // Switch every 3 minutes (180000ms)
+    playNext(); // Play first video
+    setInterval(playNext, 180000); // Switch every 3 minutes (180000 ms)
   </script>
 </body>
 </html>
