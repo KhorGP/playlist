@@ -1,12 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Drive Playlist (iframe test)</title>
+  <title>Google Drive Playlist</title>
 </head>
 <body>
-  <h2>Google Drive Video Playlist (iframe version)</h2>
-  <iframe id="player" width="100%" height="500" allow="autoplay" frameborder="0"
-    src="https://drive.google.com/file/d/1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ/preview">
-  </iframe>
+  <h2>Drive Video Playlist (iframe auto-switch)</h2>
+  <iframe id="player" width="100%" height="500" allow="autoplay" frameborder="0"></iframe>
+
+  <script>
+    const fileIds = [
+      "1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ",
+      "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u",
+      "14tDSpPmZ3piuG0kIQAGTJxD5ScBaqsuq",
+"1DLrGB3qTpuZ3twDZdCTc77urYt9SnOG3"
+      // Add more file IDs here
+    ];
+
+    let current = 0;
+    const player = document.getElementById("player");
+
+    function playNext() {
+      if (current >= fileIds.length) current = 0; // Loop back to first
+      player.src = `https://drive.google.com/file/d/${fileIds[current]}/preview`;
+      current++;
+    }
+
+    playNext(); // Start first video
+    setInterval(playNext, 180000); // Switch every 3 minutes (180000ms)
+  </script>
 </body>
 </html>
