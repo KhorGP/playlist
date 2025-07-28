@@ -1,33 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Drive Playlist (iframe version)</title>
+  <title>Drive Playlist (iframe test)</title>
 </head>
 <body>
-  <h3>Google Drive Video Playlist</h3>
-  <iframe id="player" width="100%" height="500" allow="autoplay" frameborder="0"></iframe>
-
-  <script>
-    const fileIds = [
-      "1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ",
-      "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u",
-      "14tDSpPmZ3piuG0kIQAGTJxD5ScBaqsuq"
-    ];
-
-    let current = 0;
-    const player = document.getElementById("player");
-
-    function playNext() {
-      if (current >= fileIds.length) return;
-      const previewUrl = `https://drive.google.com/file/d/${fileIds[current]}/preview`;
-      player.src = previewUrl;
-      current++;
-    }
-
-    // Automatically advance after a fixed time (e.g. 3 mins)
-    // For more accurate control, you'd need YouTube or a custom video host
-    setInterval(playNext, 180000); // every 3 mins
-    playNext();
-  </script>
+  <h2>Google Drive Video Playlist (iframe version)</h2>
+  <iframe id="player" width="100%" height="500" allow="autoplay" frameborder="0"
+    src="https://drive.google.com/file/d/1RZKlfhe8A9l8odg8m37lhoQ4MlQnuusQ/preview">
+  </iframe>
 </body>
 </html>
