@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Auto-Play Google Drive Videos</title>
+  <title>Google Drive Video Playlist</title>
 </head>
 <body>
-  <h2>Auto-Play Google Drive Videos</h2>
-  <iframe
-    id="player"
-    width="100%"
-    height="500"
-    allow="autoplay"
-    frameborder="0"
-  ></iframe>
+  <h2>Google Drive Video Playlist</h2>
+
+  <video id="player" width="100%" height="500" controls autoplay>
+    <source id="source" src="" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
   <script>
     const fileIds = [
@@ -19,27 +17,26 @@
       "1dZnCWvJvbi_ANrHeh5THwLN7JxuAPq7u"  // Second video
     ];
 
-    const videoDurations = [
-      283, // 4 min 43 sec
-      180  // assume 3 min for second video
-    ];
-
     let current = 0;
     const player = document.getElementById("player");
+    const source = document.getElementById("source");
 
-    function playVideo(index) {
-      const fileId = fileIds[index];
-      const url = `https://drive.google.com/file/d/${fileId}/preview`;
-      player.src = url;
+    function playNext() {
+      if (current >= fileIds.length) current = 0;
 
-      const duration = videoDurations[index] * 1000; // milliseconds
-      setTimeout(() => {
-        current = (current + 1) % fileIds.length;
-        playVideo(current);
-      }, duration);
+      const url = `https://drive.google.com/uc?export=download&id=${fileIds[current]}`;
+      source.src = url;
+      player.load();
+      player.play().catch(() => {
+        console.log("Autoplay might be blocked. User needs to click play.");
+      });
+      current++;
     }
 
-    playVideo(current);
+    player.onended = playNext;
+
+    // Start with the first video
+    playNext();
   </script>
 </body>
 </html>
