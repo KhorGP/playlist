@@ -4,7 +4,7 @@
   <title>Drive Video Playlist</title>
 </head>
 <body>
-  <video id="player" width="100%" height="500" controls autoplay></video>
+  <video id="player" width="100%" height="500" controls autoplay muted playsinline></video>
 
   <script>
     const videos = [
@@ -19,14 +19,18 @@
       const video = videos[current];
       const url = `https://drive.google.com/uc?export=download&id=${video.id}`;
       player.src = url;
-      player.play().catch(() => {
-        console.log("Autoplay blocked");
+
+      // Ensure autoplay
+      player.load();
+      player.play().catch((e) => {
+        console.log("Autoplay might be blocked:", e);
       });
 
+      // Schedule next video after estimated duration
       setTimeout(() => {
         current = (current + 1) % videos.length;
         playNext();
-      }, video.duration * 1000); // Switch after duration ends
+      }, video.duration * 1000);
     }
 
     playNext();
